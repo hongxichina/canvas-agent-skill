@@ -1,0 +1,4 @@
+interface:
+  display_name: "Canvas Agent Skill"
+  short_description: "Operate Huabu canvas agent APIs."
+  default_prompt: "Use the Huabu canvas agent to create or select a workspace project, start an agent run, and stream generation results."

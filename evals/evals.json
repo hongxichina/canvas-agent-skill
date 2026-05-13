@@ -1,0 +1,35 @@
+{
+  "skill_name": "canvas-agent-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have Huabu running locally and want to generate a product hero image on a new canvas. Set up the project preflight, start the canvas agent run, and tell me what command to use to watch results.",
+      "expected_output": "Explains that a workspace project is required, uses or creates a project, starts /api/agent/canvas-runs with canvas_context.projectId, and watches SSE events."
+    },
+    {
+      "id": 2,
+      "prompt": "Use project_id 434d69ef-a16c-4ed0-a757-0ae51aa555ba and this image URL to ask the canvas agent to make a video from it. I need generated video URLs when it finishes.",
+      "expected_output": "Verifies or uses the provided project ID, passes the image URL as image_urls, creates a durable canvas run, streams events, and extracts generated_video_result/videoUrls."
+    },
+    {
+      "id": 3,
+      "prompt": "I pasted an /api/agent/canvas-runs/<id>/events URL from Huabu. Help me turn it into a reusable external automation flow for future canvas agent calls.",
+      "expected_output": "Warns about token safety, identifies fixed site-id 10000 plus token/project_id/run_id, stores only HUABU_TOKEN in local .env when provided, and describes project selection, run creation, and event streaming rather than only consuming the pasted event URL."
+    },
+    {
+      "id": 4,
+      "prompt": "The host canvas failed to apply a canvas_operation returned by the canvas agent. I need the external agent to report the real failure back and get a user-facing recovery message.",
+      "expected_output": "Uses /api/agent/canvas-chat with tool_result_feedback, keeps the same conversation_id and canvas_context.projectId, includes event_type, summary, operation, error, and results, and does not silently retry with guessed inputs."
+    },
+    {
+      "id": 5,
+      "prompt": "Build a robust image-to-video canvas-agent call. The user provided a .jpeg image and a .mp4 reference video. Make sure the payload does not mix media types.",
+      "expected_output": "Passes the .jpeg only in image_urls and the .mp4 only in video_urls, explains the media field separation, creates or reuses a project-scoped conversation, and starts a durable canvas run."
+    },
+    {
+      "id": 6,
+      "prompt": "While streaming a canvas run I received event: agent_skills before canvas_operation. What should my external integration do with it?",
+      "expected_output": "Treats agent_skills as diagnostic context about injected prompt skills, does not execute it as a canvas operation, continues streaming, and only executes canvas_operation events in the host canvas."
+    }
+  ]
+}
