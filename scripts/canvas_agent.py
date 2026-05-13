@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_BASE_URL = "http://yunjian.ai"
+DEFAULT_BASE_URL = "https://ai.cnvp.cn"
 DEFAULT_SITE_ID = "10000"
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".tiff", ".avif")
 VIDEO_EXTENSIONS = (".mp4", ".mov", ".webm", ".m3u8", ".avi", ".mkv", ".mpeg", ".mpg")
