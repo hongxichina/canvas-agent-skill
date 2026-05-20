@@ -14,8 +14,8 @@ Use the Huabu canvas agent by preparing a workspace project, creating or reusing
 Use `scripts/canvas_agent.py` for normal API work:
 
 ```bash
-cp canvas-agent-skill/.env.example canvas-agent-skill/.env
-# Edit canvas-agent-skill/.env and set HUABU_TOKEN to the user's current token.
+cp canvas-agent-skill/.env.example canvas-agent-skill/scripts/.env
+# Edit canvas-agent-skill/scripts/.env and set YUNJIAN_SYSTEM_TOKEN to the user's system access token.
 
 python canvas-agent-skill/scripts/canvas_agent.py projects list
 python canvas-agent-skill/scripts/canvas_agent.py projects ensure --name "未命名项目"
@@ -24,15 +24,15 @@ python canvas-agent-skill/scripts/canvas_agent.py run --project-id "<uuid>" --pr
 python canvas-agent-skill/scripts/canvas_agent.py events --run-id "<uuid>" --project-id "<uuid>"
 ```
 
-The API origin is fixed to `https://ai.cnvp.cn` and `site-id` is fixed to `10000`; callers should not ask users to configure them.
-If the user provides a token, write it to `canvas-agent-skill/.env` as `HUABU_TOKEN=<token>` before running the CLI. Create the `.env` file from `.env.example` when it does not exist.
-Never store access tokens in committed skill files, references, examples, or generated zip packages. Runtime `.env` is local-only and must not be packaged or committed.
-Do not package or commit `canvas-agent-skill/.env`. Only `.env.example` should be distributed. The CLI automatically loads `.env` from the current directory, the skill directory, or the parent directory. Use `--env-file <path>` when the credentials live elsewhere.
+The default API origin is `http://yunjian.ai` and `site-id` defaults to `10000`.
+If the user provides a system access token, write it to `canvas-agent-skill/scripts/.env` as `YUNJIAN_SYSTEM_TOKEN=<token>` before running the CLI. Create the `.env` file from `.env.example` when it does not exist.
+Never store real system access tokens in committed skill files, references, examples, or generated zip packages. Runtime `.env` is local-only and must not be packaged or committed.
+Do not package or commit `canvas-agent-skill/scripts/.env`. Only `.env.example` should be distributed. The CLI automatically loads `.env` from the current directory, the script directory, the skill directory, or the parent directory. Use `--env-file <path>` when the credentials live elsewhere.
 
 ## Workflow
 
 1. Resolve configuration.
-   Load `.env` first, then use `HUABU_TOKEN`. The API origin is fixed to `https://ai.cnvp.cn` and `site-id` is fixed to `10000`.
+   Load `.env` first, then use `YUNJIAN_SYSTEM_TOKEN`. The API origin defaults to `http://yunjian.ai` and `site-id` defaults to `10000`.
 
 2. Ensure a workspace project exists.
    If the user gave `project_id`, verify it with `GET /api/workspace-projects/{project_id}`. If they did not, list recent projects and either choose the newest reasonable project or create a new one when the user asked for a new canvas. For project details, read `references/projects.md`.

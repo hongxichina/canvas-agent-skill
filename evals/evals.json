@@ -14,7 +14,7 @@
     {
       "id": 3,
       "prompt": "I pasted an /api/agent/canvas-runs/<id>/events URL from Huabu. Help me turn it into a reusable external automation flow for future canvas agent calls.",
-      "expected_output": "Warns about token safety, identifies fixed site-id 10000 plus token/project_id/run_id, stores only HUABU_TOKEN in local .env when provided, and describes project selection, run creation, and event streaming rather than only consuming the pasted event URL."
+      "expected_output": "Warns about system token safety, identifies site-id 10000 plus token/project_id/run_id, stores only YUNJIAN_SYSTEM_TOKEN in local scripts/.env when provided, and describes project selection, run creation, and event streaming rather than only consuming the pasted event URL."
     },
     {
       "id": 4,

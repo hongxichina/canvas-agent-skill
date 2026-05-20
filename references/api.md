@@ -1,6 +1,6 @@
 # API Reference
 
-Use these endpoints against the fixed production origin `https://ai.cnvp.cn`.
+Use these endpoints against the default production origin `http://yunjian.ai`.
 
 ## Auth
 
@@ -8,17 +8,17 @@ Send these on JSON requests:
 
 ```http
 Content-Type: application/json
-token: <access token>
+Authorization: Bearer <yjsys system access token>
 site-id: 10000
 ```
 
-For `EventSource`/SSE endpoints, the frontend implementation also accepts `token` and fixed `site-id` query parameters:
+For `EventSource`/SSE endpoints, the backend also accepts the system access token via `token` and fixed `site-id` query parameters:
 
 ```text
-?site-id=10000&token=...&project_id=<uuid>
+?site-id=10000&token=<yjsys system access token>&project_id=<uuid>
 ```
 
-Treat tokens as secrets. Do not write real tokens into skill resources, logs intended for sharing, or committed files.
+Treat system access tokens as secrets. Do not write real tokens into skill resources, logs intended for sharing, or committed files.
 
 ## Canvas Conversations
 

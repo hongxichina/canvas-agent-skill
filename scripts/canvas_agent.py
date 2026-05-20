@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_BASE_URL = "https://ai.cnvp.cn"
+DEFAULT_BASE_URL = "http://yunjian.ai"
 DEFAULT_SITE_ID = "10000"
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".tiff", ".avif")
 VIDEO_EXTENSIONS = (".mp4", ".mov", ".webm", ".m3u8", ".avi", ".mkv", ".mpeg", ".mpg")
@@ -46,6 +46,7 @@ def load_env_files(explicit_env_file: str | None = None) -> None:
     candidates.extend(
         [
             Path.cwd() / ".env",
+            SCRIPT_DIR / ".env",
             SKILL_DIR / ".env",
             SKILL_DIR.parent / ".env",
         ]
@@ -95,11 +96,16 @@ class Config:
     @classmethod
     def from_args(cls, args: argparse.Namespace) -> "Config":
         load_env_files(args.env_file)
-        base_url = DEFAULT_BASE_URL
-        token = args.token or os.environ.get("HUABU_TOKEN") or ""
-        site_id = DEFAULT_SITE_ID
+        base_url = (os.environ.get("YUNJIAN_BASE_URL") or DEFAULT_BASE_URL).rstrip("/")
+        token = (
+            args.token
+            or os.environ.get("YUNJIAN_SYSTEM_TOKEN")
+            or os.environ.get("YUNJIAN_TOKEN")
+            or ""
+        )
+        site_id = os.environ.get("YUNJIAN_SITE_ID") or DEFAULT_SITE_ID
         if not token:
-            raise SystemExit("Missing token. Set HUABU_TOKEN or pass --token.")
+            raise SystemExit("Missing system token. Set YUNJIAN_SYSTEM_TOKEN or pass --token.")
         return cls(base_url=base_url, token=token, site_id=site_id)
 
 
@@ -139,7 +145,7 @@ class HuabuClient:
             method=method.upper(),
             headers={
                 "Content-Type": "application/json",
-                "token": self.config.token,
+                "Authorization": f"Bearer {self.config.token}",
                 "site-id": self.config.site_id,
             },
         )
@@ -633,8 +639,8 @@ def command_feedback(client: HuabuClient, args: argparse.Namespace) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Huabu canvas agent API helper")
-    parser.add_argument("--env-file", help="Path to a .env file. Defaults to .env in the current directory or skill directory.")
-    parser.add_argument("--token", help="Access token. Defaults to HUABU_TOKEN.")
+    parser.add_argument("--env-file", help="Path to a .env file. Defaults to .env in the current directory, scripts directory, or skill directory.")
+    parser.add_argument("--token", help="System access token. Defaults to YUNJIAN_SYSTEM_TOKEN.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     projects = subparsers.add_parser("projects", help="Project operations")
