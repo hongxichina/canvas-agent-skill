@@ -1,6 +1,6 @@
 # API Reference
 
-Use these endpoints against the default production origin `http://yunjian.ai`.
+Use these endpoints against the default production origin `https://ai.cnvp.cn`.
 
 ## Auth
 
